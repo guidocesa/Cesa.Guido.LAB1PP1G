@@ -5,6 +5,7 @@
 #include "color.h"
 #include "bicicleta.h"
 #include "trabajo.h"
+#include "funciones.h"
 #define BICICLETASMAXIMAS 200
 #define TOTALTRABAJOS 200
 #define TOTALTIPOS 4
@@ -22,4 +23,6 @@ int main()
     inicializarListado(bicicletas, BICICLETASMAXIMAS);
     inicializarTrabajos(trabajos, TOTALTRABAJOS);
     menuPrincipal(bicicletas, BICICLETASMAXIMAS, tipos, TOTALTIPOS, colores, TOTALCOLORES, servicios, TOTALSERVICIOS, trabajos, TOTALTRABAJOS);
+
+    return 0;
 }

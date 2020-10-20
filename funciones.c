@@ -79,7 +79,7 @@ int menuPrincipal(eBicicleta bicicletas[], int largoBicicletas, eTipo tipos[], i
             modificarBicicleta(bicicletas, largoBicicletas, tipos, largoTipos, colores, largoColores);
             break;
         case 3:
-            darDeBajaBicicleta(bicicletas, largoBicicletas);
+            darDeBajaBicicleta(bicicletas, largoBicicletas, tipos, largoTipos, colores, largoColores);
             break;
         case 4:
             system("cls");

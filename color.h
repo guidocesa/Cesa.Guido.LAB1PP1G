@@ -7,8 +7,23 @@ typedef struct
     char nombreColor[21];
 }eColor;
 
+/** \brief Muestra todos los colores del listado recibido.
+ *
+ * \param colores[] eColor
+ * \param largo int
+ * \return void
+ *
+ */
 void listarColores(eColor colores[], int largo);
 
+/** \brief Devuelve el puntero al String del nombre del id de color recibido.
+ *
+ * \param colores[] eColor
+ * \param largo int
+ * \param id int
+ * \return char*
+ *
+ */
 char* obtenerNombreColor(eColor colores[], int largo, int id);
 
 #endif // COLOR_H_INCLUDED

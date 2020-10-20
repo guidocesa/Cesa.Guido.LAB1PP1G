@@ -14,8 +14,23 @@ typedef struct
     float precio;
 }eServicio;
 
+/** \brief Muestra todos los servicios que contiene el listado recibido
+ *
+ * \param servicios[] eServicio
+ * \param largo int
+ * \return void
+ *
+ */
 void listarServicios(eServicio servicios[], int largo);
 
+/** \brief Devuelve el puntero al string que contiene la descripcion del servicio recibido como ID.
+ *
+ * \param servicios[] eServicio
+ * \param largoServicios int
+ * \param id int
+ * \return char*
+ *
+ */
 char* obtenerDescServicio(eServicio servicios[], int largoServicios, int id);
 
 #endif // SERVICIO_H_INCLUDED

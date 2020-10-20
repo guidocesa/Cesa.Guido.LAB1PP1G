@@ -158,11 +158,12 @@ void solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo,
     agregarBicicletaOrdenada(bicicletas , largo, marca, idTipo, idColor, rodado);
 }
 
-void darDeBajaBicicleta(eBicicleta bicicletas[], int largo)
+void darDeBajaBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores)
 {
     int id;
     system("cls");
     printf("Ingrese el ID de la bicicleta que desea dar de baja y luego presione enter. \n\n");
+    listarBicicletas(bicicletas, largo, tipos, largoTipos, colores, largoColores);
     fflush(stdin);
     scanf("%i" , &id);
 
