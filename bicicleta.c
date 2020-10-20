@@ -67,7 +67,7 @@ int moverBicicletasDesde(int posicionInicial, eBicicleta bicicletas[], int largo
     return retorno;
 }
 
-int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[21], int idTipo, int idColor, float rodado)
+int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[], int idTipo, int idColor, float rodado)
 {
     int retorno = 0;
     int i = 0;
@@ -194,6 +194,22 @@ int borrarBicicletaPorId(eBicicleta bicicletas[], int id, int largo)
     return(fueBorrada);
 }
 
+int mostrarMenuModificacion()
+{
+    int seleccion;
+
+    do
+    {
+        system("cls");
+        printf("Seleccione que desea modificar:\n\n1. Color\n2. Tipo\n3. Rodado\n4. Marca");
+        fflush(stdin);
+        scanf("%i", &seleccion);
+    }while(seleccion < 1 || seleccion > 4);
+
+    return seleccion;
+
+}
+
 void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores)
 {
     system("cls");
@@ -201,7 +217,9 @@ void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
     int idEncontrado = 0;
     int i = 0;
 
-    printf("Por favor ingrese el numero de ID de la bicicleta a modificar seguido de la tecla enter.");
+    printf("Por favor ingrese el numero de ID de la bicicleta a modificar seguido de la tecla enter.\n");
+    listarBicicletas(bicicletas, largo, tipos, largoTipos, colores, largoColores);
+    printf("\n\n");
     fflush(stdin);
     scanf("%i", &idAModificar);
 
@@ -213,11 +231,70 @@ void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
         }
         i++;
     }
+    i--;
 
     if(idEncontrado)
     {
-        borrarBicicletaPorId(bicicletas, idAModificar, largo);
-        solicitarDatosYAgregarBicicletaOrdenada(bicicletas, largo, tipos, largoTipos, colores, largoColores);
+        int idTipoNuevo;
+        int idColorNuevo;
+        float rodadoNuevo;
+        char marcaNueva[21];
+
+        int seleccion = mostrarMenuModificacion();
+        eBicicleta aux = bicicletas[i];
+        switch(seleccion)
+        {
+            case 1:
+
+                do
+                {
+                    system("cls");
+                    printf("Por favor ingrese el ID del color seguido de la tecla enter.  \n\n");
+                    listarColores(colores, largoColores);
+                    fflush(stdin);
+                    scanf("%i" , &idColorNuevo);
+                }while(idColorNuevo < 5000 || idColorNuevo > 5004);
+                aux.idColor = idColorNuevo;
+                break;
+
+            case 2:
+
+                do
+                {
+                    system("cls");
+                    printf("Por favor ingrese el id del tipo de bicicleta seguido de la tecla enter. \n\n");
+                    listarTipos(tipos, largoTipos);
+                    fflush(stdin);
+                    scanf("%i" , &idTipoNuevo);
+                }while(idTipoNuevo < 1000 || idTipoNuevo > 1003);
+                aux.idTipo = idTipoNuevo;
+                break;
+
+            case 3:
+
+                do
+                {
+                    system("cls");
+                    printf("Por favor ingrese el rodado de la bicicleta seguido de la tecla enter.  \n\n");
+                    fflush(stdin);
+                    scanf("%f" , &rodadoNuevo);
+                }while(rodadoNuevo < 20 || rodadoNuevo > 29);
+
+                aux.rodado = rodadoNuevo;
+                break;
+
+            case 4:
+
+                printf("Por favor ingrese la marca de la bicicleta y luego la tecla enter. \n\n");
+                fflush(stdin);
+                gets(marcaNueva);
+                formatearString(marcaNueva);
+                strcpy(aux.marca , marcaNueva);
+
+                break;
+        }
+        borrarBicicletaPorId(bicicletas, bicicletas[i].id, largo);
+        agregarBicicletaOrdenada(bicicletas, largo, aux.marca, aux.idTipo, aux.idColor, aux.rodado);
 
     }
     else
@@ -232,7 +309,6 @@ void listarBicicletas(eBicicleta bicicletas[], int largo, eTipo tipos[], int lar
     int i = 0;
     char colorAMostrar[21];
     char tipoAMostrar[21];
-    system("cls");
     printf("ID\t MARCA\t\t IDTIPO\t IDCOLOR\t RODADO\n");
     printf("--------------------------------------------------------------------\n\n");
     while(!bicicletas[i].estaVacio)
