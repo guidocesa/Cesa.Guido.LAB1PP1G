@@ -29,3 +29,20 @@ char* obtenerNombreColor(eColor colores[], int largo, int id)
     }
     return retorno;
 }
+
+int pedirIdColor(eColor colores[], int largo)
+{
+
+    int idSeleccionado;
+    do
+    {
+
+        system("cls");
+        printf("Por favor ingrese el id del color que desea seleccionar seguido de la tecla enter.");
+        listarColores(colores, largo);
+        fflush(stdin);
+        scanf("%i", &idSeleccionado);
+    }while(idSeleccionado < 5000 || idSeleccionado > 5004);
+
+    return idSeleccionado;
+}

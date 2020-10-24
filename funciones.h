@@ -4,6 +4,7 @@
 #include "trabajo.h"
 #include "color.h"
 #include "servicio.h"
+#include "cliente.h"
 
 /** \brief Confirma la salida del programa
  *
@@ -42,7 +43,7 @@ void formatearString(char marca[]);
  * \return int
  *
  */
-int menuPrincipal(eBicicleta bicicletas[], int largoBicicletas, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eServicio servicios[], int largoServicios , eTrabajo trabajos[], int largoTrabajos);
+int menuPrincipal(eBicicleta bicicletas[], int largoBicicletas, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eServicio servicios[], int largoServicios , eTrabajo trabajos[], int largoTrabajos, eCliente clientes[], int largoClientes);
 
 /** \brief Funcion auxiliar para settear los colores, tipos, y servicios de las bicicletas
  *
@@ -55,6 +56,13 @@ int menuPrincipal(eBicicleta bicicletas[], int largoBicicletas, eTipo tipos[], i
  * \return void
  *
  */
-void hardcodearDatos(eTipo tipos[], int largoTipos, eColor colores[], int  largoColores,eServicio servicios[], int largoServicios);
+void hardcodearDatos(eTipo tipos[], int largoTipos, eColor colores[], int  largoColores,eServicio servicios[], int largoServicios, eCliente clientes[], int largoClientes);
+
+/** \brief Alerta que el listado no tiene elementos por consola.
+ *
+ * \return void
+ *
+ */
+void alertarListadoVacio();
 
 #endif // FUNCIONES_H_INCLUDED

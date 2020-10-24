@@ -67,9 +67,8 @@ int moverBicicletasDesde(int posicionInicial, eBicicleta bicicletas[], int largo
     return retorno;
 }
 
-int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[], int idTipo, int idColor, float rodado)
+int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[], int idTipo, int idColor, float rodado, int idCliente)
 {
-    int retorno = 0;
     int i = 0;
     int fueAgregado = 0;
     int id = obtenerIdLibre(bicicletas ,  largo);
@@ -88,12 +87,9 @@ int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[], i
                     bicicletas[i].idTipo = idTipo;
                     bicicletas[i].idColor = idColor;
                     bicicletas[i].rodado = rodado;
+                    bicicletas[i].idCliente = idCliente;
                     bicicletas[i].estaVacio = 0;
                     fueAgregado = 1;
-                }
-                else
-                {
-                    retorno = -1;
                 }
            }
            else
@@ -103,25 +99,24 @@ int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[], i
                     bicicletas[i].idTipo = idTipo;
                     bicicletas[i].idColor = idColor;
                     bicicletas[i].rodado = rodado;
+                    bicicletas[i].idCliente = idCliente;
                     bicicletas[i].estaVacio = 0;
                     fueAgregado = 1;
            }
         }
         i++;
     }
-    if( i == 1000 && !fueAgregado)
-    {
-        retorno = -1;
-    }
-    return retorno;
+    return fueAgregado;
 }
 
-void solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores)
+int solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
 {
     char marca[20];
     int idTipo;
     int idColor;
     float rodado;
+    int idCliente;
+    int bicicletaAgregada=0;
 
     system("cls");
     printf("Por favor ingrese la marca de la bicicleta y luego la tecla enter. \n\n");
@@ -150,20 +145,35 @@ void solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo,
     do
     {
         system("cls");
-        printf("Por favor ingrese el rodado de la bicicleta seguido de la tecla enter.  \n\n");
+        printf("Por favor ingrese el rodado de la bicicleta seguido de la tecla enter. (Rodados validos: 20, 26, 27.5, 29) \n\n");
         fflush(stdin);
         scanf("%f" , &rodado);
-    }while(rodado < 20 || rodado > 29);
+    }while(!(rodado == 20.00 || rodado == 26.00 || rodado == 27.50 || rodado == 29.00));
 
-    agregarBicicletaOrdenada(bicicletas , largo, marca, idTipo, idColor, rodado);
+    do
+    {
+        system("cls");
+        printf("Por favor ingrese el id del cliente duenio de la bicicleta seguido de la tecla enter.  \n\n");
+        listarClientes(clientes, largoClientes);
+        fflush(stdin);
+        scanf("%i" , &idCliente);
+    }while(idCliente < 6000 || idCliente > (6000 + largoClientes - 1));
+
+
+    if(agregarBicicletaOrdenada(bicicletas , largo, marca, idTipo, idColor, rodado, idCliente))
+    {
+        bicicletaAgregada = 1;
+    }
+
+    return bicicletaAgregada;
 }
 
-void darDeBajaBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores)
+int darDeBajaBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
 {
     int id;
     system("cls");
     printf("Ingrese el ID de la bicicleta que desea dar de baja y luego presione enter. \n\n");
-    listarBicicletas(bicicletas, largo, tipos, largoTipos, colores, largoColores);
+    listarBicicletas(bicicletas, largo, tipos, largoTipos, colores, largoColores, clientes, largoClientes);
     fflush(stdin);
     scanf("%i" , &id);
 
@@ -174,6 +184,8 @@ void darDeBajaBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
         printf("Ese ID de bicicleta no se encuentra en el sistema, por favor checkee en el listado. /n");
         system("pause");
     }
+
+    return fueBorrado;
 }
 
 int borrarBicicletaPorId(eBicicleta bicicletas[], int id, int largo)
@@ -211,20 +223,21 @@ int mostrarMenuModificacion()
 
 }
 
-void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores)
+int modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
 {
     system("cls");
     int idAModificar;
     int idEncontrado = 0;
     int i = 0;
+    int bicicletaModificada = 0;
 
     printf("Por favor ingrese el numero de ID de la bicicleta a modificar seguido de la tecla enter.\n");
-    listarBicicletas(bicicletas, largo, tipos, largoTipos, colores, largoColores);
+    listarBicicletas(bicicletas, largo, tipos, largoTipos, colores, largoColores, clientes, largoClientes);
     printf("\n\n");
     fflush(stdin);
     scanf("%i", &idAModificar);
 
-    while(!idEncontrado && !bicicletas[i].estaVacio)
+    while(!idEncontrado && !bicicletas[i].estaVacio && i < largo)
     {
         if(bicicletas[i].id == idAModificar)
         {
@@ -276,11 +289,10 @@ void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
                 do
                 {
                     system("cls");
-                    printf("Por favor ingrese el rodado de la bicicleta seguido de la tecla enter.  \n\n");
+                    printf("Por favor ingrese el rodado de la bicicleta seguido de la tecla enter. (Rodados validos: 20, 26, 27.5, 29)  \n\n");
                     fflush(stdin);
                     scanf("%f" , &rodadoNuevo);
-                }while(rodadoNuevo < 20 || rodadoNuevo > 29);
-
+                }while(!(rodadoNuevo == 20.00 || rodadoNuevo == 26.00 || rodadoNuevo == 27.50 || rodadoNuevo == 29.00));
                 aux.rodado = rodadoNuevo;
                 break;
 
@@ -295,7 +307,8 @@ void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
                 break;
         }
         borrarBicicletaPorId(bicicletas, bicicletas[i].id, largo);
-        agregarBicicletaOrdenada(bicicletas, largo, aux.marca, aux.idTipo, aux.idColor, aux.rodado);
+        agregarBicicletaOrdenada(bicicletas, largo, aux.marca, aux.idTipo, aux.idColor, aux.rodado, aux.idCliente);
+        bicicletaModificada = 1;
 
     }
     else
@@ -303,21 +316,33 @@ void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
         printf("No se pudo encontrar una bicicleta con ese Id, por favor confirme que sea el correcto.");
         system("pause");
     }
+
+    return bicicletaModificada;
 }
 
-void listarBicicletas(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores)
+void mostrarBicicleta(eBicicleta bicicleta, eColor colores[], int largoColores, eTipo tipos[], int largoTipos, eCliente clientes[], int largoClientes)
+{
+    char color[21];
+    char tipo[21];
+    char nombreCliente[21];
+
+
+    strcpy(color, obtenerNombreColor(colores, largoColores, bicicleta.idColor) );
+    strcpy(tipo, obtenerDescTipo(tipos, largoTipos, bicicleta.idTipo) );
+    strcpy(nombreCliente, obtenerNombreCliente(clientes, largoClientes, bicicleta.idCliente));
+
+    printf("%i\t%s\t\t%s\t%s\t%.2f\t%s\n", bicicleta.id, bicicleta.marca, tipo, color, bicicleta.rodado, nombreCliente);
+}
+
+void listarBicicletas(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
 {
     int i = 0;
-    char colorAMostrar[21];
-    char tipoAMostrar[21];
-    printf("ID\t MARCA\t\t IDTIPO\t IDCOLOR\t RODADO\n");
+    printf("ID\t MARCA\t\t TIPO\t COLOR\t RODADO\t CLIENTE\n");
     printf("--------------------------------------------------------------------\n\n");
     while(!bicicletas[i].estaVacio)
     {
-        strcpy(colorAMostrar, obtenerNombreColor(colores, largoColores, bicicletas[i].idColor) );
-        strcpy(tipoAMostrar, obtenerDescTipo(tipos, largoTipos, bicicletas[i].idTipo) );
+        mostrarBicicleta(bicicletas[i], colores, largoColores, tipos, largoTipos, clientes, largoClientes);
 
-        printf("%i\t%s\t\t%s\t%s\t%f\n", bicicletas[i].id, bicicletas[i].marca, tipoAMostrar, colorAMostrar, bicicletas[i].rodado);
         i++;
     }
     system("pause");
@@ -349,6 +374,155 @@ char* obtenerDescTipo(eTipo tipos[], int largo, int id)
         }
     }
     return retorno;
+}
+
+void listarBicicletasPorColor(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
+{
+    int idColorSeleccionado;
+    int i = 0;
+    idColorSeleccionado = pedirIdColor(colores, largoColores);
+
+    system("cls");
+    printf("ID\t MARCA\t\t TIPO\t COLOR\t RODADO\t CLIENTE\n");
+    printf("--------------------------------------------------------------------\n\n");
+    while(!bicicletas[i].estaVacio)
+    {
+        if(bicicletas[i].idColor == idColorSeleccionado)
+        {
+            mostrarBicicleta(bicicletas[i], colores, largoColores, tipos, largoTipos, clientes, largoClientes);
+        }
+        i++;
+    }
+}
+
+
+int pedirIdTipo(eTipo tipos[], int largo)
+{
+
+    int idSeleccionado;
+    do
+    {
+
+        system("cls");
+        printf("Por favor ingrese el id del tipo que desea seleccionar seguido de la tecla enter.");
+        listarTipos(tipos, largo);
+        fflush(stdin);
+        scanf("%i", &idSeleccionado);
+    }while(idSeleccionado < 1000 || idSeleccionado > 1003);
+
+    return idSeleccionado;
+}
+
+void listarBicicletasDeUnTipo(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
+{
+    int idTipoSeleccionado;
+    int i = 0;
+    idTipoSeleccionado = pedirIdTipo(tipos, largoTipos);
+
+    system("cls");
+    printf("ID\t MARCA\t\t TIPO\t COLOR\t RODADO\t CLIENTE\n");
+    printf("--------------------------------------------------------------------\n\n");
+    while(!bicicletas[i].estaVacio)
+    {
+        if(bicicletas[i].idTipo == idTipoSeleccionado)
+        {
+
+            mostrarBicicleta(bicicletas[i], colores, largoColores, tipos, largoTipos, clientes, largoClientes);
+        }
+        i++;
+    }
+}
+
+void listarBicicletasDeMenorRodado(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
+{
+    int rodadoMasChicoEncontrado = 0;
+    int esPrimeraBici = 1;
+    int i = 0;
+
+
+
+    while(i < largo && !bicicletas[i].estaVacio)
+    {
+        if(esPrimeraBici || rodadoMasChicoEncontrado > bicicletas[i].rodado)
+        {
+            rodadoMasChicoEncontrado = bicicletas[i].rodado;
+            esPrimeraBici = 0;
+        }
+    }
+    i = 0;
+    while(i < largo && !bicicletas[i].estaVacio)
+    {
+        if(rodadoMasChicoEncontrado == bicicletas[i].rodado)
+        {
+            mostrarBicicleta(bicicletas[i], colores, largoColores, tipos, largoTipos, clientes, largoClientes);
+        }
+        i++;
+    }
+}
+
+void buscarBicicletasDeTipoYColorSeleccionado(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
+{
+    int idColorSeleccionado = pedirIdColor(colores, largoColores);
+    system("cls");
+    int idTipoSeleccionado = pedirIdTipo(tipos, largoTipos);
+    system("cls");
+
+
+    int i = 0;
+    printf("ID\t MARCA\t\t TIPO\t COLOR\t RODADO\t CLIENTE\n");
+    printf("--------------------------------------------------------------------\n\n");
+    while(!bicicletas[i].estaVacio)
+    {
+        if(bicicletas[i].idColor == idColorSeleccionado && bicicletas[i].idTipo == idTipoSeleccionado)
+        {
+            mostrarBicicleta(bicicletas[i], colores, largoColores, tipos, largoTipos, clientes, largoClientes);
+        }
+        i++;
+    }
+
+}
+
+void mostarColorPreferidoPorLosClientes(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes)
+{
+    int i = 0;
+    int contadorColores[largoColores];
+
+    int x = 0;
+
+    while(x < largoColores)
+    {
+        contadorColores[x] = 0;
+        x++;
+    }
+
+    while(!bicicletas[i].estaVacio && i < largo)
+    {
+        contadorColores[ (bicicletas[i].idColor - 5000) ] ++;
+        i++;
+    }
+
+    int mayorCantidad;
+    int primeraPasada = 1;
+
+    for(int u = 0; u < largoColores ; u++)
+    {
+        if(primeraPasada || mayorCantidad < contadorColores[u])
+        {
+            mayorCantidad = contadorColores[u];
+            primeraPasada = 0;
+        }
+    }
+
+    printf("El/Los colores con mayor cantidad de bicicletas son: \n\n");
+
+    for(int j = 0; j < largoColores ; j++)
+    {
+        if(mayorCantidad == contadorColores[j])
+        {
+            printf("%s : %i\n", colores[j].nombreColor, mayorCantidad);
+        }
+    }
+
 }
 
 

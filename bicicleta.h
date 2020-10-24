@@ -1,6 +1,7 @@
 #ifndef BICICLETA_H_INCLUDED
 #define BICICLETA_H_INCLUDED
 #include "color.h"
+#include "cliente.h"
 
 typedef struct
 {
@@ -9,6 +10,7 @@ typedef struct
     int idTipo;
     int idColor;
     float rodado;
+    int idCliente;
     int estaVacio;
 }eBicicleta;
 
@@ -67,7 +69,7 @@ int moverBicicletasDesde(int posicionInicial, eBicicleta bicicletas[], int largo
  * \return int
  *
  */
-int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[21], int idTipo, int idColor, float rodado);
+int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[], int idTipo, int idColor, float rodado, int idCliente);
 
 /** \brief Solicita los datos de la bicicleta nueva a agregar y luego llama a agregarBicicletaOrdenada
  *
@@ -80,7 +82,7 @@ int agregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, char marca[21],
  * \return void
  *
  */
-void solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores);
+int solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
 
 /** \brief Pide un ID para borrar una bicicleta y llama a borrarBicicletaPorID
  *
@@ -89,7 +91,7 @@ void solicitarDatosYAgregarBicicletaOrdenada(eBicicleta bicicletas[], int largo,
  * \return void
  *
  */
-void darDeBajaBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores);
+int darDeBajaBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
 
 /** \brief Recibe el ID de la bicicleta a borrar, devuelve 1 si fue borrada y 0 si no se encuentra en el listado. Al borrar la bicicleta acomoda el resto del listado.
  *
@@ -111,7 +113,7 @@ int borrarBicicletaPorId(eBicicleta bicicletas[], int id, int largo);
  * \return void
  *
  */
-void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores);
+int modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
 
 /** \brief Muestra todas las bicicletas dentro del listado.
  *
@@ -124,7 +126,7 @@ void modificarBicicleta(eBicicleta bicicletas[], int largo, eTipo tipos[], int l
  * \return void
  *
  */
-void listarBicicletas(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores);
+void listarBicicletas(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
 
 /** \brief Devuelve 1 si el ID recibido se encuentra en el listado, 0 si no es asi.
  *
@@ -145,5 +147,103 @@ int idEstaEnElListado(int idBicicleta,eBicicleta bicicletas[],int largoBicicleta
  *
  */
 char* obtenerDescTipo(eTipo tipos[], int largo, int id);
+
+/** \brief Muestra las bicicletas del color seleccionado por el usuario.
+ *
+ * \param bicicletas[] eBicicleta
+ * \param largo int
+ * \param tipos[] eTipo
+ * \param largoTipos int
+ * \param colores[] eColor
+ * \param largoColores int
+ * \param clientes[] eCliente
+ * \param largoClientes int
+ * \return void
+ *
+ */
+void listarBicicletasPorColor(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
+
+/** \brief Muestra los diferentes tipos y pide al usuario que seleccione uno y retorna el ID del mismo.,
+ *
+ * \param tipos[] eTipo
+ * \param largo int
+ * \return int
+ *
+ */
+int pedirIdTipo(eTipo tipos[], int largo);
+
+/** \brief Muestra todas las bicicletas de un tipo seleccionado.
+ *
+ * \param bicicletas[] eBicicleta
+ * \param largo int
+ * \param tipos[] eTipo
+ * \param largoTipos int
+ * \param colores[] eColor
+ * \param largoColores int
+ * \param clientes[] eCliente
+ * \param largoClientes int
+ * \return void
+ *
+ */
+void listarBicicletasDeUnTipo(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
+
+/** \brief Muestra las bicicletas del menor rodado que se encuentre en la lista.
+ *
+ * \param bicicletas[] eBicicleta
+ * \param largo int
+ * \param tipos[] eTipo
+ * \param largoTipos int
+ * \param colores[] eColor
+ * \param largoColores int
+ * \param clientes[] eCliente
+ * \param largoClientes int
+ * \return void
+ *
+ */
+void listarBicicletasDeMenorRodado(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
+
+/** \brief Imprime una bicicleta por pantalla.
+ *
+ * \param bicicleta eBicicleta
+ * \param colores[] eColor
+ * \param largoColores int
+ * \param tipos[] eTipo
+ * \param largoTipos int
+ * \param clientes[] eCliente
+ * \param largoClientes int
+ * \return void
+ *
+ */
+void mostrarBicicleta(eBicicleta bicicleta, eColor colores[], int largoColores, eTipo tipos[], int largoTipos, eCliente clientes[], int largoClientes);
+
+/** \brief Muestra las bicicletas de un tipo y color seleccionados en especifico.
+ *
+ * \param bicicletas[] eBicicleta
+ * \param largo int
+ * \param tipos[] eTipo
+ * \param largoTipos int
+ * \param colores[] eColor
+ * \param largoColores int
+ * \param clientes[] eCliente
+ * \param largoClientes int
+ * \return void
+ *
+ */
+void buscarBicicletasDeTipoYColorSeleccionado(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
+
+/** \brief Muestra el/los colores predominantes en las bicicletas del listado.
+ *
+ * \param bicicletas[] eBicicleta
+ * \param largo int
+ * \param tipos[] eTipo
+ * \param largoTipos int
+ * \param colores[] eColor
+ * \param largoColores int
+ * \param clientes[] eCliente
+ * \param largoClientes int
+ * \return void
+ *
+ */
+void mostarColorPreferidoPorLosClientes(eBicicleta bicicletas[], int largo, eTipo tipos[], int largoTipos, eColor colores[], int largoColores, eCliente clientes[], int largoClientes);
 
 #endif // BICICLETA_H_INCLUDED

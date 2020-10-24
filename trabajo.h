@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include "bicicleta.h"
 #include "servicio.h"
+#include "cliente.h"
 
 typedef struct
 {

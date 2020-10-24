@@ -6,11 +6,13 @@
 #include "bicicleta.h"
 #include "trabajo.h"
 #include "funciones.h"
+#include "cliente.h"
 #define BICICLETASMAXIMAS 200
 #define TOTALTRABAJOS 200
 #define TOTALTIPOS 4
 #define TOTALCOLORES 5
 #define TOTALSERVICIOS 4
+#define CLIENTESHARDCODEADOS 5
 
 int main()
 {
@@ -19,10 +21,11 @@ int main()
     eColor colores[TOTALCOLORES];
     eServicio servicios[TOTALSERVICIOS];
     eBicicleta bicicletas[BICICLETASMAXIMAS];
-    hardcodearDatos(tipos, TOTALTIPOS, colores, TOTALCOLORES, servicios, TOTALSERVICIOS);
+    eCliente clientes[CLIENTESHARDCODEADOS];
+    hardcodearDatos(tipos, TOTALTIPOS, colores, TOTALCOLORES, servicios, TOTALSERVICIOS, clientes, CLIENTESHARDCODEADOS);
     inicializarListado(bicicletas, BICICLETASMAXIMAS);
     inicializarTrabajos(trabajos, TOTALTRABAJOS);
-    menuPrincipal(bicicletas, BICICLETASMAXIMAS, tipos, TOTALTIPOS, colores, TOTALCOLORES, servicios, TOTALSERVICIOS, trabajos, TOTALTRABAJOS);
+    menuPrincipal(bicicletas, BICICLETASMAXIMAS, tipos, TOTALTIPOS, colores, TOTALCOLORES, servicios, TOTALSERVICIOS, trabajos, TOTALTRABAJOS, clientes, CLIENTESHARDCODEADOS);
 
     return 0;
 }

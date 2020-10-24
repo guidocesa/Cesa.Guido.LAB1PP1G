@@ -68,16 +68,16 @@
 	"trabajo.h"
 	"funciones.h"
 
-1603060784 source:d:\proyectos\c\parcial 1\color.c
+1603496204 source:d:\proyectos\c\parcial 1\color.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"color.h"
 
-1603208373 d:\proyectos\c\parcial 1\color.h
+1603500716 d:\proyectos\c\parcial 1\color.h
 
-1603208403 source:d:\proyectos\c\parcial 1\main.c
+1603491787 source:d:\proyectos\c\parcial 1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -86,17 +86,20 @@
 	"bicicleta.h"
 	"trabajo.h"
 	"funciones.h"
+	"cliente.h"
 
-1603208598 d:\proyectos\c\parcial 1\bicicleta.h
+1603500652 d:\proyectos\c\parcial 1\bicicleta.h
 	"color.h"
+	"cliente.h"
 
-1603208373 d:\proyectos\c\parcial 1\trabajo.h
+1603491322 d:\proyectos\c\parcial 1\trabajo.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"bicicleta.h"
 	"servicio.h"
+	"cliente.h"
 
 1603208373 d:\proyectos\c\parcial 1\servicio.h
 	<stdio.h>
@@ -114,7 +117,7 @@
 	"bicicleta.h"
 	"servicio.h"
 
-1603208598 source:d:\proyectos\c\parcial 1\funciones.c
+1603500670 source:d:\proyectos\c\parcial 1\funciones.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -123,18 +126,25 @@
 	"bicicleta.h"
 	"trabajo.h"
 	"funciones.h"
+	"cliente.h"
 
-1603208373 d:\proyectos\c\parcial 1\funciones.h
+1603492642 d:\proyectos\c\parcial 1\funciones.h
 	"bicicleta.h"
 	"trabajo.h"
 	"color.h"
 	"servicio.h"
+	"cliente.h"
 
-1603152100 source:d:\proyectos\c\parcial 1\bicicleta.c
+1603500461 source:d:\proyectos\c\parcial 1\bicicleta.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"bicicleta.h"
 	"funciones.h"
+
+1603493010 source:d:\proyectos\c\parcial 1\cliente.c
+	"cliente.h"
+
+1603493341 d:\proyectos\c\parcial 1\cliente.h
 

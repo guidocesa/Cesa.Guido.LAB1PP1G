@@ -26,4 +26,13 @@ void listarColores(eColor colores[], int largo);
  */
 char* obtenerNombreColor(eColor colores[], int largo, int id);
 
+/** \brief Muestra la lista de colores y devuelve el id del color seleccionado por el usuario.
+ *
+ * \param colores[] eColor
+ * \param largo int
+ * \return int
+ *
+ */
+int pedirIdColor(eColor colores[], int largo);
+
 #endif // COLOR_H_INCLUDED
